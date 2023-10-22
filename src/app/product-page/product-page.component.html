@@ -1,0 +1,39 @@
+<div class="card p-0 w-50 m-auto py-6 bg-white my-6">
+    <div class="container">
+        <i [routerLink]="['/home']" routerLinkActive="router-link-active"  class="cursor-pointer ms-3 fs-4 mainC pi pi-arrow-circle-left"></i>
+        <div class="row justify-content-center align-items-center gap-7">
+            <div class="col-md-4 mb-2">
+                <owl-carousel-o [options]="customOptions">
+                    <ng-template carouselSlide *ngFor="let image of productDetails.images">
+                        <!-- <img [src]="image" alt=""> -->
+                        <lib-ngx-image-zoom 
+                            [magnification]="0.6"
+                            [enableScrollZoom]="true"
+                            [enableLens]="true"
+                            [lensWidth]="100"
+                            [lensHeight]="100"
+                            [thumbImage]='image'
+                        ></lib-ngx-image-zoom>
+                    </ng-template> 
+                </owl-carousel-o>
+            </div>
+            <div class="col-md-4">
+                <h2>{{ productDetails.slug }}</h2>
+                <div class="d-flex gap-2 align-items-center">
+                    <p-rating [(ngModel)]="ratingValue" class="mainC" [readonly]="true" [cancel]="false"></p-rating>
+                    <span class="fw-bold mainC mb-1">({{ productDetails.ratingsQuantity }} reviews)</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <h3 class="fw-bold my-3">{{ productDetails.price | currency }}</h3>
+                    <del>{{ productDetails.price * 1.3 | currency }}</del>
+                </div>
+                <h4>Description</h4>
+                <h6 class="fw-normal mb-5">{{ productDetails.description }}</h6>
+                <button (click)="addPToCart(productDetails._id)" icon="pi pi-cart-plus" pButton pRipple label="Add to cart" class="mainbg me-2 px-5 py-2"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+
+

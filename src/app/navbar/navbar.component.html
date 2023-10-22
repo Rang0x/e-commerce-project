@@ -1,0 +1,36 @@
+
+<div class="container">
+    <nav class="navbar align-items-center navbar-expand-lg">
+        <img [routerLink]="['/home']" routerLinkActive="router-link-active"  src="assets/images/logo.png" alt="" class="cursor-pointer">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div *ngIf="isLogged" class="collapse navbar-collapse justify-content-center mt-2" id="navbarNavDropdown">
+            <ul class="navbar-nav fs-5">
+                <li class="nav-item">
+                    <a [routerLink]="['/home']" routerLinkActive="router-link-active"  class="nav-link active cursor-pointer" aria-current="page">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['/products']" routerLinkActive="router-link-active"  class="nav-link cursor-pointer">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link cursor-pointer">Brands</a>
+                </li>
+            </ul>
+        </div>
+        <div class="ms-auto">
+            <div *ngIf="!isLogged">
+                <button [routerLink]="['/login']" routerLinkActive="router-link-active"  pButton pRipple type="button" label="Login" class="mainbg me-2 px-5 py-2"></button>
+                <button [routerLink]="['/signup']" pButton pRipple type="button" label="Sign-up" class="p-button-outlined p-button-danger px-5 py-2 p-button-rounded"></button>
+            </div>
+            <div *ngIf="isLogged" class="d-flex align-items-center">
+                <p-menu #menu [model]="items" [popup]="true"></p-menu>
+                <button pButton (click)="menu.toggle($event)" class="p-button-outlined p-button-info border-0" icon="pi pi-align-left" label="Welcome, {{ userName }}"></button>
+                <!-- <i class="pi pi-heart text-red-500 text-3xl cursor-pointer" pBadge severity="info" style="font-size: 1rem" value="2"></i> -->
+                <i [routerLink]="['/cart']" routerLinkActive="router-link-active"  class="pi pi-shopping-cart text-red-500 text-3xl mx-4 mainC cursor-pointer" pBadge severity="info" [value]="cartItemsNum"></i>
+                <i [routerLink]="['/whishlist']" routerLinkActive="router-link-active"  class="pi pi-heart text-red-500 text-3xl me-4 mainC cursor-pointer" pBadge severity="info" [value]="whishListCount"></i>
+                <button (click)="logOut()" pButton pRipple label="Logout" class="p-button-outlined p-button-danger px-5 py-2 p-button-rounded"></button>
+            </div>
+        </div>
+</nav>
+</div>

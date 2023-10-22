@@ -1,0 +1,88 @@
+<div class="card w-75 p-0 m-auto py-6 bg-white my-6">
+    <div *ngIf="cartEmpty" class="text-center">
+        <h3>Your Cart is empty</h3>
+        <button [routerLink]="['/home']" routerLinkActive="router-link-active"  pButton pRipple label="Homepage" class="mainbg mt-5 me-2 px-5 py-2"></button>
+    </div>
+    <div class="container">
+        <div class="row justify-content-around">
+            <div *ngIf="!cartEmpty" class="col-md-9">
+                <p-table [value]="cartProducts">
+                    <ng-template pTemplate="caption">
+                        <div class="flex align-items-center justify-content-between">
+                            In total there are {{ cartData.numOfCartItems }} products.
+                            <button (click)="clearCart()" pButton pRipple label="Clear Cart" class="p-button-danger p-button-outlined mt-5 me-2 px-5 py-2"></button>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Details</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-cartProducts>
+                        <tr class="text-center">
+                            <td>
+                                <div class="d-flex gap-7 align-items-center">
+                                    <img [src]="cartProducts.product.imageCover" class="w-25" alt="">
+                                    <div class="d-flex flex-column">
+                                        <h4>{{cartProducts.product.title}}</h4>
+                                        <h6 class="mb-3 fw-normal mainC">{{cartProducts.product.category.name}}</h6>
+                                        <p-rating class="mainC" [readonly]="true" [(ngModel)]="cartProducts.product.ratingsAverage" [cancel]="false"></p-rating>
+                                        <p-button (onClick)="clearItem(cartProducts.product._id)" icon="pi pi-trash" styleClass="p-button-danger p-0 mt-3"></p-button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="fw-medium fs-5">{{cartProducts.price | currency}}</td>
+                            <td>
+                                <div class="card border-0 flex justify-content-center">
+                                    <div class="d-flex flex-column w-11rem">
+                                        <p-button (onClick)="updateCount(cartProducts.product._id, cartProducts.count + 1 )" icon="pi pi-angle-up" styleClass="p-0 w-3rem"></p-button>
+                                        <input class="form-control w-3rem my-1 text-center" type="text" [(ngModel)]="cartProducts.count">
+                                        <p-button (onClick)="updateCount(cartProducts.product._id, cartProducts.count - 1 )" icon="pi pi-angle-down" styleClass="p-0"></p-button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h4>{{cartProducts.price * cartProducts.count | currency}}</h4>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div *ngIf="!cartEmpty" class="col-md-3 text-center bg-blue-100 rounded-top-0 sticky-top h-15rem pt-5 card">
+                <h4 class="text-center">Order Summary</h4>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <h5>Total Price</h5>
+                    <h5>{{ cartData.data.totalCartPrice | currency }}</h5>
+                </div>
+                <button (click)="showCheckout()" routerLinkActive="router-link-active" pButton pRipple label="Checkout" class="mainbg mt-5 me-2 px-5 py-2"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Checkout Form" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+        <form [formGroup]="checkOutForm" (ngSubmit)="checkOut(cartData.data._id, checkOutForm)" class="mt-3">
+            <label for="details" class="block text-900 text-xl font-medium mb-2">Address</label>
+            <input formControlName="details" id="details" type="text" placeholder="Enter your Address" pInputText class="form-control  mb-3" style="padding:1rem">
+            <div *ngIf="checkOutForm.get('details')?.errors && checkOutForm.get('details')?.touched" class="alert alert-danger mb-2">
+                <p *ngIf="checkOutForm.get('details')?.errors?.['required']">Address is required</p>
+            </div>
+            
+            <label for="phone" class="block text-900 text-xl font-medium mb-2">Phone</label>
+            <input formControlName="phone" id="phone" type="text" placeholder="Enter your phone number" pInputText class="form-control  mb-3" style="padding:1rem">
+            <div *ngIf="checkOutForm.get('phone')?.errors && checkOutForm.get('phone')?.touched" class="alert alert-danger mb-2">
+                <p *ngIf="checkOutForm.get('phone')?.errors?.['required']">Phone number is required</p>
+            </div>
+            
+            <label for="city" class="block text-900 text-xl font-medium mb-2">City</label>
+            <input formControlName="city" id="city" type="text" placeholder="Enter your city number" pInputText class="form-control  mb-3" style="padding:1rem">
+            <div *ngIf="checkOutForm.get('city')?.errors && checkOutForm.get('city')?.touched" class="alert alert-danger mb-2">
+                <p *ngIf="checkOutForm.get('city')?.errors?.['required']">City name is required</p>
+            </div>
+            <button [disabled]="checkOutForm.invalid" type="submit" pButton pRipple label="Checkout" class="mainbg me-2 px-5 py-2"></button>
+        </form>
+</p-dialog>

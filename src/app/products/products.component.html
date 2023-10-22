@@ -1,0 +1,40 @@
+
+<h2 class="text-center mt-6 mb-4  fw-normal">Popular Products</h2>
+<p-dataView styleClass="bg-transparent mb-4" #dv [value]="allProducts" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+    <ng-template pTemplate="header">
+        <div class="d-flex justify-content-center gap-3">
+            <p-dropdown [options]="priceSortOptions" placeholder="Sort By Price" (onChange)="onSortChange($event)"></p-dropdown>
+            <input [(ngModel)]="userWord" class=" w-50 bg-white-alpha-90 fontAwesome" type="text" pInputText placeholder='&#xF002; Search'>
+        </div>
+    </ng-template>
+</p-dataView>
+
+<div class="container">
+    <div class="row g-3">
+        <div *ngFor="let product of getProductsofPage(currentPage) | search:userWord" class="col-md-2 mb-2">
+            <div routerLinkActive="router-link-active" class=" overflow-hidden position-relative card pCard p-1">
+                <img [src]="product.imageCover" class="rounded-2 w-100" alt="">
+                <div class="heart">
+                    <i *ngIf="!wishList.includes(product._id)" (click)="addToWhishList(product._id)" class="fs-2 text-red pi pi-heart cursor-pointer "></i>
+                <i *ngIf="wishList.includes(product._id)" (click)="removeWhishList(product._id)" class="fs-2 pi pi-heart-fill text-red-500 cursor-pointer "></i>
+                </div>
+                <div  class="btns cursor-pointer gap-3 translate-middle-y p-3 rounded-2 bg-black-alpha-90 d-flex flex-column">
+                    <i  (click)="addPToCart(product._id)" class="fs-3 text-white pi pi-cart-plus"></i>
+                    <i [routerLink]="['/product', product._id]" class="fs-3 text-white pi pi-eye"></i>
+                </div>
+                <div class="p-3">
+                    <h4 class="mb-0 fw-normal d-inline">{{ product.slug | maxLen }}</h4>
+                    <h6 class="mt-0 fw-normal mainC">{{ product.category.name }}</h6>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h5 class="mb-0">{{ product.price | currency }}</h5>
+                        <i class="fa fa-star text-yellow-500">{{ product.ratingsAverage}}</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class=" flex justify-content-center">
+    <p-paginator class="my-5" (onPageChange)="onPageChange($event)" [rows]="rows" [totalRecords]="allProducts.length"></p-paginator>
+</div>
+<p-toast></p-toast>

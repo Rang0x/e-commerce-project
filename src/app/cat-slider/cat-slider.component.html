@@ -1,0 +1,11 @@
+<h2 class="text-center mt-3 mb-5 fw-normal">Popular Categories</h2>
+<owl-carousel-o [options]="customOptions">
+    <ng-container *ngFor="let category of allCats">
+        <ng-template carouselSlide>
+            <div class="card p-2 mx-2 text-center">
+                <img [src]="category['image']" class="h-11rem" [title]="category['name']">
+            <h5 class="mt-2">{{category['name']}}</h5>
+            </div>
+        </ng-template>
+    </ng-container>
+</owl-carousel-o>

@@ -1,0 +1,9 @@
+formDesign {
+    border-radius:56px; 
+    padding:0.3rem; 
+    background: linear-gradient(180deg, var(--main-color) 10%, rgba(33, 150, 243, 0) 30%)
+}
+
+input[type="checkbox"]:checked {
+    accent-color: red ;
+  }

@@ -1,0 +1,26 @@
+
+
+.pCard {
+    &:hover {
+        .btns {
+            right: 0;
+        }
+        .heart {
+            right: 7px;
+        }
+    }
+}
+
+.btns {
+    position: absolute;
+    top: 50%;
+    right: -50%;
+    transition: all 0.6s;
+}
+
+.heart {
+    position: absolute;
+    top: 7px;
+    right: -50%;
+    transition: all 0.6s;
+}

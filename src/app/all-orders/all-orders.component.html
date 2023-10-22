@@ -1,0 +1,25 @@
+
+
+<h2 class="text-center my-5">My Orders</h2>
+<div class="card mb-4 w-75 m-auto">
+    <p-table [value]="allOrders" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>Order id</th>
+                <th>Created at</th>
+                <th>Shipping Address</th>
+                <th>Total price</th>
+                <th>Status</th>
+            </tr>
+        </ng-template>
+        <ng-template ngFor let-product let-i="index" pTemplate="body"  >
+            <tr >
+                <td>{{ product['id'] }}</td>
+                <td>{{ product['createdAt'] | date }}</td>
+                <td>{{ product['shippingAddress']['details'] }}</td>
+                <td>{{ product['totalOrderPrice'] | currency}}</td>
+                <td><p-tag severity="success" value="Paid"></p-tag></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
